@@ -25,3 +25,8 @@ func main() {
 	fmt.Println(profit)
 	fmt.Println(ratio)
 }
+
+//Passing parameters in a function
+// func outputText(text string) {
+// 	fmt.Print()
+// }
