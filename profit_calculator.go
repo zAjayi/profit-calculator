@@ -1,19 +1,30 @@
 package main
 
 import "fmt"
+import "errors"
 
 func main() {
-	var revenue float64
-	var expenses float64
-	var taxRate float64
-
 	var ebt float64
 	var profit float64
 	var ratio float64
 
-	revenue = getUserInput("Enter revenue: ")
-	expenses = getUserInput("Enter expenses: ")
-	taxRate = getUserInput("Enter tax rate: ")
+	revenue, err1 := getUserInput("Enter revenue: ")
+	// if err != nil {
+	// 	fmt.Println(err)
+	// 	return
+	// }
+
+	expenses, err2 := getUserInput("Enter expenses: ")
+	// if err != nil {
+	// 	fmt.Println(err)
+	// 	return
+	// }
+
+	taxRate, err3 := getUserInput("Enter tax rate: ")
+	if err1 != nil || err2 != nil || err3 != nil {
+		fmt.Println(err1)
+		return
+	}
 
 	ebt, profit, ratio = financialCalculator(revenue, expenses, taxRate)
 
@@ -34,9 +45,14 @@ func financialCalculator(revenue, expenses, taxRate float64) (float64, float64, 
 	return ebt, profit, ratio
 }
 
-func getUserInput(infoText string) float64 {
+func getUserInput(infoText string) (float64, error) {
 	var  userInput float64
 	fmt.Print(infoText)
 	fmt.Scan(&userInput)
-	return userInput
+
+	if userInput <= 0 {
+		return 0, errors.New("Value must be a positive number.")
+	}
+
+	return userInput, nil
 }
