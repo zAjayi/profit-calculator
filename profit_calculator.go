@@ -1,7 +1,11 @@
 package main
 
-import "fmt"
-import "errors"
+import (
+	"fmt"
+	"errors"
+	"os"
+)
+
 
 func main() {
 	var ebt float64
@@ -12,6 +16,7 @@ func main() {
 	// if err != nil {
 	// 	fmt.Println(err)
 	// 	return
+	//  panic(err)
 	// }
 
 	expenses, err2 := getUserInput("Enter expenses: ")
@@ -31,12 +36,19 @@ func main() {
 	fmt.Printf("%.2f\n", ebt)
 	fmt.Printf("%.2f\n", profit)
 	fmt.Printf("%.3f\n", ratio)
+
+	storeResults(ebt, profit, ratio)
 }
 
 //Passing parameters in a function
 // func outputText(text string) {
 // 	fmt.Print()
 // }
+
+func storeResults(ebt, profit, ratio float64) {
+	results := fmt.Sprintf("EBT: %.1f\nProfit: %.1f\nRatio: %.3f", ebt, profit, ratio)
+	os.WriteFile("results.txt", []byte(results), 0644)
+}
 
 func financialCalculator(revenue, expenses, taxRate float64) (float64, float64, float64) {
 	ebt := revenue - expenses
